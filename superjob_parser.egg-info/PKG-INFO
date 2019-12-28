@@ -1,0 +1,11 @@
+Metadata-Version: 1.2
+Name: superjob-parser
+Version: 0.1.0
+Summary: Script to parse internships list from superjob.ru
+Home-page: UNKNOWN
+Author: Artiom Khandamirov
+Author-email: t9max@yandex.ru
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Requires-Python: >=3.8,<4.0

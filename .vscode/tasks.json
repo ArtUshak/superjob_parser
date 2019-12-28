@@ -1,0 +1,23 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "update",
+            "type": "shell",
+            "command": "poetry update",
+            "problemMatcher": []
+        },
+        {
+            "label": "update1",
+            "type": "shell",
+            "command": "poetry lock && poetry install",
+            "problemMatcher": []
+        },
+        {
+            "label": "run8mosvka",
+            "type": "shell",
+            "command": "poetry run python ./superjob_parser/superjob_parser.py list-internships --industry 8 moskva --output-file ./output/output.csv",
+            "problemMatcher": []
+        }
+    ]
+}

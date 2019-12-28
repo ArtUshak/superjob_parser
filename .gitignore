@@ -1,0 +1,9 @@
+venv
+*.pyc
+.venv
+.env
+data/
+.~lock*
+__unused__
+poetry.lock
+output/*

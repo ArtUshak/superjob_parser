@@ -1,0 +1,8 @@
+README.md
+setup.py
+superjob_parser/superjob_parser.py
+superjob_parser.egg-info/PKG-INFO
+superjob_parser.egg-info/SOURCES.txt
+superjob_parser.egg-info/dependency_links.txt
+superjob_parser.egg-info/requires.txt
+superjob_parser.egg-info/top_level.txt
