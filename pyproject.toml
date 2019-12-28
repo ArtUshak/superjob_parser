@@ -3,6 +3,7 @@ name = "superjob_parser"
 version = "0.1.0"
 description = "Script to parse internships list from superjob.ru"
 authors = ["Artiom Khandamirov <t9max@yandex.ru>"]
+license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
