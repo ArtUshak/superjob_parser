@@ -2,7 +2,7 @@
 """Script for booking database management."""
 import csv
 import time
-from typing import Optional, List, Dict, Any, Iterator, Iterable, IO
+from typing import Optional, List, Dict, Any, Iterator, IO
 import re
 
 import click
@@ -25,11 +25,11 @@ SLEEP_TIME_DISCONNECTED: float = 1
 def request_get(
     session: requests_html.HTMLSession, url: str,
     params: Optional[Dict[str, Any]] = None
-) -> requests.Response:
+) -> requests_html.Response:
     """Perform GET request and return response. Retry on error."""
     for i in range(MAX_TRY_NUM):
         try:
-            response: requests.Response = session.get(url, params=params)
+            response: requests_html.Response = session.get(url, params=params)
             time.sleep(SLEEP_TIME_DEFAULT)
             return response
         except requests.ConnectionError:
@@ -92,7 +92,7 @@ class FullInternshipList:
         if len(requirements) > 0:
             requirements_text = requirements[0].text
 
-        result = {
+        result: Dict[str, Any] = {
             'is_archive': is_archive,
             'requirements': requirements_text,
             'min_grade': None,
@@ -101,24 +101,26 @@ class FullInternshipList:
             'employment_type': None,
         }
 
-        requirements_grades_match = re.match(
-            r'([0-9]+)—([0-9]+) курс', requirements_text
-        )
-        if requirements_grades_match is not None:
-            result['min_grade'] = int(requirements_grades_match.group(1))
-            result['max_grade'] = int(requirements_grades_match.group(2))
+        if requirements_text is not None:
+            requirements_grades_match = re.match(
+                r'([0-9]+)—([0-9]+) курс', requirements_text
+            )
+            if requirements_grades_match is not None:
+                result['min_grade'] = int(requirements_grades_match.group(1))
+                result['max_grade'] = int(requirements_grades_match.group(2))
 
-        requirements_graduate_match = re.match(
-            r'выпускники', requirements_text
-        )
-        if requirements_graduate_match is not None:
-            result['allow_graduate'] = True
+            requirements_graduate_match = re.match(
+                r'выпускники', requirements_text
+            )
+            if requirements_graduate_match is not None:
+                result['allow_graduate'] = True
 
-        requirements_employment_match = re.match(
-            r'(.*\n|^)(.+? занятость)', requirements_text
-        )
-        if requirements_employment_match is not None:
-            result['employment_type'] = requirements_employment_match.group(2)
+            requirements_employment_match = re.match(
+                r'(.*\n|^)(.+? занятость)', requirements_text
+            )
+            if requirements_employment_match is not None:
+                result['employment_type'] = \
+                    requirements_employment_match.group(2)
 
         return result
 
@@ -195,7 +197,7 @@ def list_internships(
     output_file: IO
 ):
     """Get list of internship URLs on SuperJob matching criteria."""
-    result_list: Iterable[Dict[str, Any]] = FullInternshipList(
+    result_list: FullInternshipList = FullInternshipList(
         city, industry, include_archive
     )
 

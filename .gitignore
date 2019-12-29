@@ -7,3 +7,4 @@ data/
 __unused__
 poetry.lock
 output/*
+.mypy_cache
