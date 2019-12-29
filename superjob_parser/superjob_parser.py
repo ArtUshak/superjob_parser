@@ -98,10 +98,11 @@ class FullInternshipList:
             'min_grade': None,
             'max_grade': None,
             'allow_graduate': False,
+            'employment_type': None,
         }
 
         requirements_grades_match = re.match(
-            r'([0-9]+)—([0-9]+)', requirements_text
+            r'([0-9]+)—([0-9]+) курс', requirements_text
         )
         if requirements_grades_match is not None:
             result['min_grade'] = int(requirements_grades_match.group(1))
@@ -112,6 +113,12 @@ class FullInternshipList:
         )
         if requirements_graduate_match is not None:
             result['allow_graduate'] = True
+
+        requirements_employment_match = re.match(
+            r'(.*\n|^)(.+? занятость)', requirements_text
+        )
+        if requirements_employment_match is not None:
+            result['employment_type'] = requirements_employment_match.group(2)
 
         return result
 
@@ -171,10 +178,18 @@ class FullInternshipList:
 
 
 @click.command()
-@click.argument('city', type=click.STRING)
-@click.option('--industry', type=click.INT, default=None)
-@click.option('--include-archive', type=click.BOOL, default=False)
-@click.option('--output-file', type=click.File(mode='wt'))
+@click.argument(
+    'city', type=click.STRING
+)
+@click.option(
+    '--industry', type=click.INT, default=None
+)
+@click.option(
+    '--include-archive', type=click.BOOL, default=False
+)
+@click.option(
+    '--output-file', type=click.File(mode='wt')
+)
 def list_internships(
     city: str, industry: Optional[int], include_archive: bool,
     output_file: IO
@@ -188,7 +203,7 @@ def list_internships(
         output_file,
         [
             'url', 'is_archive', 'requirements', 'min_grade', 'max_grade',
-            'allow_graduate'
+            'allow_graduate', 'employment_type'
         ]
     )
     csv_writer.writeheader()
