@@ -25,11 +25,13 @@ SLEEP_TIME_DISCONNECTED: float = 1
 def request_get(
     session: requests_html.HTMLSession, url: str,
     params: Optional[Dict[str, Any]] = None
-) -> requests_html.Response:
+) -> requests_html.HTMLResponse:
     """Perform GET request and return response. Retry on error."""
     for i in range(MAX_TRY_NUM):
         try:
-            response: requests_html.Response = session.get(url, params=params)
+            response: requests_html.HTMLResponse = session.get(
+                url, params=params
+            )
             time.sleep(SLEEP_TIME_DEFAULT)
             return response
         except requests.ConnectionError:
@@ -57,6 +59,7 @@ class FullInternshipList:
         request_params: Dict[str, Any] = dict()
         if industry is not None:
             request_params['industry'] = industry
+            request_params['actualOnly'] = int(not include_archive)
 
         self.session = requests_html.HTMLSession()
         request_url: str = \
