@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Script for booking database management."""
+"""Script for parsing students.superjob.ru internship offers."""
 import csv
 import time
 from typing import Optional, List, Dict, Any, Iterator, IO
